@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Styles • Fashion Lookbook</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="left">
+      <a class="logo" href="index.html">FASHION</a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="style.html" class="nav-link">Style</a>
+        <a href="season.html" class="nav-link">Season</a>
+        <a href="brands.html" class="nav-link">Brands</a>
+      </nav>
+    </div>
+    <div class="right">
+      <div class="auth-buttons">
+        <a class="btn" href="login.html">Login</a>
+        <a class="btn btn-primary" href="register.html">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="section">
+      <h2>Fashion Styles</h2>
+      <p class="subtitle">Pick a style - you will see a short explanation below.</p>
+
+      <div class="chips">
+        <button type="button" class="chip style-chip" data-style="classic">Classic</button>
+        <button type="button" class="chip style-chip" data-style="casual">Casual</button>
+        <button type="button" class="chip style-chip" data-style="streetwear">Streetwear</button>
+        <button type="button" class="chip style-chip" data-style="sport">Sport</button>
+        <button type="button" class="chip style-chip" data-style="business">Business</button>
+        <button type="button" class="chip style-chip" data-style="romantic">Romantic</button>
+        <button type="button" class="chip style-chip" data-style="minimal">Minimal</button>
+      </div>
+
+      <div id="style-info" class="info-card">
+        <div class="info-title">Choose a style 👆</div>
+        <div class="info-text">A short description will appear here.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">© 2026 Fashion Lookbook with love from Kultivator</footer>
+
+  <script>
+    const styleData = {
+      classic: { title: "Classic", text: "Timeless, clean, elegant. Neutral colors, structured pieces, quality fabrics (blazer, trench, straight trousers)." },
+      casual: { title: "Casual", text: "Everyday comfort. Basics, denim, relaxed fits, sneakers. Easy to mix, looks natural and simple." },
+      streetwear: { title: "Streetwear", text: "Urban culture + bold silhouettes. Hoodies, oversized tees, sneakers, graphics, caps. Inspired by skate/hip-hop." },
+      sport: { title: "Sport", text: "Functional and comfortable. Tech fabrics, leggings, windbreakers, sneakers. Can be mixed with minimal basics." },
+      business: { title: "Business", text: "Professional and polished. Suit sets, shirts, midi skirts, neutral palette. Fit + neat details matter most." },
+      romantic: { title: "Romantic", text: "Soft silhouettes: dresses, skirts, floral prints, lace, gentle colors. Focus on delicate details." },
+      minimal: { title: "Minimal", text: "Less is more. Simple cuts, solid colors, clean shapes. Looks expensive when fit is perfect." }
+    };
+
+    function setActive(btn) {
+      document.querySelectorAll(".style-chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    }
+
+    function renderInfo(key) {
+      const box = document.getElementById("style-info");
+      const item = styleData[key];
+      box.innerHTML = `<div class="info-title">${item.title}</div><div class="info-text">${item.text}</div>`;
+    }
+
+    document.querySelectorAll(".style-chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        setActive(btn);
+        renderInfo(btn.dataset.style);
+      });
+    });
+  </script>
+</body>
+</html>

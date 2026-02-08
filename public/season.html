@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seasons • Fashion Lookbook</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="left">
+      <a class="logo" href="index.html">FASHION</a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="style.html" class="nav-link">Style</a>
+        <a href="season.html" class="nav-link">Season</a>
+        <a href="brands.html" class="nav-link">Brands</a>
+      </nav>
+    </div>
+    <div class="right">
+      <div class="auth-buttons">
+        <a class="btn" href="login.html">Login</a>
+        <a class="btn btn-primary" href="register.html">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="section">
+      <h2>Seasons</h2>
+      <p class="subtitle">Each season has its own fabrics, colors, mood, and layering rules.</p>
+
+      <!-- WEATHER WIDGET -->
+      <div class="weather-wrap">
+        <div class="weather-card" id="weather-card">
+          <div class="weather-top">
+            <div>
+              <div class="weather-title">Weather now</div>
+              <div class="weather-sub" id="weather-location">Detecting location…</div>
+            </div>
+            <div class="weather-chip" id="weather-chip">Loading…</div>
+          </div>
+
+          <div class="weather-row">
+            <div class="weather-metric">
+              <div class="label">Temperature</div>
+              <div class="value" id="weather-temp">—</div>
+            </div>
+            <div class="weather-metric">
+              <div class="label">Feels like</div>
+              <div class="value" id="weather-feels">—</div>
+            </div>
+            <div class="weather-metric">
+              <div class="label">Wind</div>
+              <div class="value" id="weather-wind">—</div>
+            </div>
+          </div>
+
+          <div class="weather-tip" id="weather-tip">
+            Tip will appear here after loading.
+          </div>
+
+          <div class="weather-actions">
+            <button class="btn" type="button" id="weather-refresh">Refresh</button>
+            <button class="btn" type="button" id="weather-use-astana">Use Astana</button>
+          </div>
+
+          <div class="weather-foot">
+            Source: Open-Meteo
+          </div>
+        </div>
+      </div>
+      <!-- WEATHER -->
+
+      <div class="cards-grid">
+        <div class="card card-pad">
+          <h3>Winter ❄️</h3>
+          <p>
+            The key focus is warmth and layering. Coats, down jackets, wool, cashmere,
+            and thick knits dominate winter wardrobes. Monochrome and minimal looks work especially well.
+          </p>
+          <div class="meta">
+            Fun fact: winter outfits often look more elegant when built around a single color
+            (total black, grey, or cream).
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <h3>Spring 🌸</h3>
+          <p>
+            A transitional season perfect for trench coats, denim jackets, and lightweight outerwear.
+            Layers become thinner and colors shift toward lighter and pastel tones.
+          </p>
+          <div class="meta">
+            Fun fact: the trench coat became popular as a functional garment before turning into a fashion classic.
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <h3>Summer ☀️</h3>
+          <p>
+            Breathable fabrics are essential. Cotton, linen, and viscose keep outfits light and comfortable.
+            Silhouettes are simple with minimal layering.
+          </p>
+          <div class="meta">
+            Fun fact: linen is one of the oldest fabrics in the history of clothing.
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <h3>Autumn 🍂</h3>
+          <p>
+            The best season for textures: leather, suede, wool, and knitwear.
+            Earthy color palettes dominate, making it ideal for building a capsule wardrobe.
+          </p>
+          <div class="meta">
+            Fun fact: autumn is the easiest season to create a capsule wardrobe thanks to versatile layering.
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:14px;">
+        Mini tip: if you are unsure what to wear, focus on fabric and footwear - they define the season more than anything else.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">© 2026 Fashion Lookbook with love from Kultivator</footer>
+
+  <script>
+    // WEATHER (Open-Meteo)
+    const $ = (id) => document.getElementById(id);
+
+    function seasonFromMonth(m) {
+      // m: 1..12
+      if (m === 12 || m === 1 || m === 2) return "Winter";
+      if (m >= 3 && m <= 5) return "Spring";
+      if (m >= 6 && m <= 8) return "Summer";
+      return "Autumn";
+    }
+
+    function outfitTip(tempC, windKmh) {
+      // simple outfit logic
+      if (tempC <= -10) return "Extra cold: thermal base layer + heavy coat + scarf + gloves.";
+      if (tempC <= 0) return "Cold: coat/puffer + warm knit + boots. Add a hat for comfort.";
+      if (tempC <= 10) return "Cool: trench/coat + hoodie/knit. Sneakers or ankle boots work well.";
+      if (tempC <= 20) return "Mild: light jacket or blazer. Great time for layering a shirt + knit.";
+      return "Warm: breathable fabrics (cotton/linen). Keep it light and comfortable.";
+
+    }
+
+    function windNote(windKmh) {
+      if (windKmh >= 35) return "Windy: choose a windproof layer and avoid very light outerwear.";
+      if (windKmh >= 20) return "Breezy: a light jacket helps even if temperature feels warm.";
+      return "";
+    }
+
+    function weatherCodeToText(code) {
+      // Open-Meteo weather codes 
+      const map = {
+        0: "Clear",
+        1: "Mostly clear",
+        2: "Partly cloudy",
+        3: "Cloudy",
+        45: "Fog",
+        48: "Depositing rime fog",
+        51: "Light drizzle",
+        53: "Drizzle",
+        55: "Heavy drizzle",
+        61: "Light rain",
+        63: "Rain",
+        65: "Heavy rain",
+        71: "Light snow",
+        73: "Snow",
+        75: "Heavy snow",
+        80: "Rain showers",
+        81: "Rain showers",
+        82: "Heavy showers",
+        95: "Thunderstorm"
+      };
+      return map[code] || "Weather";
+    }
+
+    async function reverseGeocodeName(lat, lon) {
+      // Open-Meteo has geocoding API
+      const url = new URL("https://geocoding-api.open-meteo.com/v1/reverse");
+      url.searchParams.set("latitude", lat);
+      url.searchParams.set("longitude", lon);
+      url.searchParams.set("language", "en");
+      url.searchParams.set("count", "1");
+
+      const res = await fetch(url.toString());
+      const data = await res.json();
+      const place = data?.results?.[0];
+      if (!place) return "Your location";
+      const parts = [place.name, place.admin1, place.country].filter(Boolean);
+      return parts.join(", ");
+    }
+
+    async function loadWeatherByCoords(lat, lon) {
+      $("weather-chip").textContent = "Loading…";
+      $("weather-location").textContent = "Loading location…";
+
+      const placeName = await reverseGeocodeName(lat, lon).catch(() => "Your location");
+      $("weather-location").textContent = placeName;
+
+      const url = new URL("https://api.open-meteo.com/v1/forecast");
+      url.searchParams.set("latitude", lat);
+      url.searchParams.set("longitude", lon);
+      url.searchParams.set("current", "temperature_2m,apparent_temperature,wind_speed_10m,weather_code");
+      url.searchParams.set("timezone", "auto");
+
+      const res = await fetch(url.toString());
+      const data = await res.json();
+
+      const cur = data?.current;
+      if (!cur) throw new Error("No weather data");
+
+      const temp = Math.round(cur.temperature_2m);
+      const feels = Math.round(cur.apparent_temperature);
+      const wind = Math.round(cur.wind_speed_10m);
+      const desc = weatherCodeToText(cur.weather_code);
+
+      $("weather-temp").textContent = `${temp}°C`;
+      $("weather-feels").textContent = `${feels}°C`;
+      $("weather-wind").textContent = `${wind} km/h`;
+
+      const now = new Date();
+      const season = seasonFromMonth(now.getMonth() + 1);
+
+      const tip = outfitTip(temp, wind);
+      const wNote = windNote(wind);
+
+      $("weather-tip").innerHTML =
+        `<b>${season} outfit tip:</b> ${tip}` +
+        (wNote ? `<br/><span class="muted">${wNote}</span>` : "");
+
+      $("weather-chip").textContent = desc;
+    }
+
+    async function loadWeatherAuto() {
+      if (!navigator.geolocation) {
+        $("weather-location").textContent = "Geolocation not supported";
+        $("weather-chip").textContent = "—";
+        $("weather-tip").textContent = "Tip: click “Use Astana” or enable location access in your browser.";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          try {
+            await loadWeatherByCoords(pos.coords.latitude, pos.coords.longitude);
+          } catch (e) {
+            console.error(e);
+            $("weather-chip").textContent = "Error";
+            $("weather-tip").textContent = "Could not load weather. Try Refresh or Use Astana.";
+          }
+        },
+        () => {
+          $("weather-location").textContent = "Location blocked";
+          $("weather-chip").textContent = "—";
+          $("weather-tip").textContent = "Allow location access or click “Use Astana”.";
+        },
+        { enableHighAccuracy: false, timeout: 8000 }
+      );
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadWeatherAuto();
+
+      $("weather-refresh").addEventListener("click", () => loadWeatherAuto());
+
+      // Astana hehe
+      $("weather-use-astana").addEventListener("click", () => {
+        loadWeatherByCoords(51.1694, 71.4491).catch((e) => {
+          console.error(e);
+          $("weather-chip").textContent = "Error";
+          $("weather-tip").textContent = "Could not load weather for Astana.";
+        });
+      });
+    });
+  </script>
+</body>
+</html>

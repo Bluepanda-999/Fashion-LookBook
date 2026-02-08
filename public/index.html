@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fashion Lookbook</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="left">
+      <a class="logo" href="index.html">FASHION</a>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="style.html" class="nav-link">Style</a>
+        <a href="season.html" class="nav-link">Season</a>
+        <a href="brands.html" class="nav-link">Brands</a>
+      </nav>
+    </div>
+
+    <div class="right">
+      <div class="auth-buttons">
+        <a class="btn" href="login.html">Login</a>
+        <a class="btn btn-primary" href="register.html">Register</a>
+      </div>
+
+      <div class="hot-topics-box">
+        <div class="box-title">Hot topics</div>
+        <div id="hot-topics" class="hot-topics"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <section class="section">
+      <h2>Welcome to Fashion Lookbook</h2>
+      <p class="subtitle">
+        Explore styles, seasons and brands — and get inspiration from real fashion photos.
+      </p>
+
+      <div class="note">
+        <b>Tip:</b> To create a post you need to <b>login</b>.
+      </div>
+    </section>
+
+    <!-- FILTERS + RESULTS -->
+    <section class="section">
+      <h2>Find posts</h2>
+      <p class="subtitle">Pick any filters you want (or pick nothing) and we will show matching posts.</p>
+
+      <!-- STYLE -->
+      <div class="filter-block">
+        <div class="mini-title">Choose style</div>
+        <div class="chips">
+          <button type="button" class="chip" data-filter="style" data-value="classic">Classic</button>
+          <button type="button" class="chip" data-filter="style" data-value="casual">Casual</button>
+          <button type="button" class="chip" data-filter="style" data-value="streetwear">Streetwear</button>
+          <button type="button" class="chip" data-filter="style" data-value="sport">Sport</button>
+          <button type="button" class="chip" data-filter="style" data-value="business">Business</button>
+          <button type="button" class="chip" data-filter="style" data-value="romantic">Romantic</button>
+          <button type="button" class="chip" data-filter="style" data-value="minimal">Minimal</button>
+
+          <button type="button" class="chip chip-ghost" data-clear="style">Clear style</button>
+        </div>
+      </div>
+
+      <!-- SEASON -->
+      <div class="filter-block">
+        <div class="mini-title">Choose season</div>
+        <div class="chips">
+          <button type="button" class="chip" data-filter="season" data-value="winter">Winter</button>
+          <button type="button" class="chip" data-filter="season" data-value="spring">Spring</button>
+          <button type="button" class="chip" data-filter="season" data-value="summer">Summer</button>
+          <button type="button" class="chip" data-filter="season" data-value="autumn">Autumn</button>
+
+          <button type="button" class="chip chip-ghost" data-clear="season">Clear season</button>
+        </div>
+      </div>
+
+      <!-- BRAND -->
+      <div class="filter-block">
+        <div class="mini-title">Choose brand</div>
+        <div class="chips">
+          <button type="button" class="chip" data-filter="brand" data-value="Zara">Zara</button>
+          <button type="button" class="chip" data-filter="brand" data-value="Nike">Nike</button>
+          <button type="button" class="chip" data-filter="brand" data-value="Adidas">Adidas</button>
+          <button type="button" class="chip" data-filter="brand" data-value="H&M">H&amp;M</button>
+
+          <button type="button" class="chip chip-ghost" data-clear="brand">Clear brand</button>
+        </div>
+      </div>
+
+      <div class="chips" style="margin-top: 8px;">
+        <button type="button" class="btn" id="clear-all">Clear all</button>
+      </div>
+
+      <div class="note" id="filter-state" style="margin-top: 12px;"></div>
+
+      <div id="filtered-posts" class="grid" style="margin-top: 12px;"></div>
+    </section>
+
+    <!-- POST FORM -->
+    <section class="section">
+      <h2>Post your idea / look</h2>
+
+      <form id="post-form" class="form">
+        <div class="row">
+          <label>Title</label>
+          <input name="title" required maxlength="120" placeholder="e.g. Minimal winter outfit" />
+        </div>
+
+        <div class="row">
+          <label>Description</label>
+          <textarea name="description" required maxlength="3000" placeholder="Describe your look..."></textarea>
+        </div>
+
+        <div class="row two">
+          <div>
+            <label>Style</label>
+            <select name="style" required>
+              <option value="classic">classic</option>
+              <option value="casual">casual</option>
+              <option value="streetwear">streetwear</option>
+              <option value="sport">sport</option>
+              <option value="business">business</option>
+              <option value="romantic">romantic</option>
+              <option value="minimal">minimal</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Season</label>
+            <select name="season" required>
+              <option value="winter">winter</option>
+              <option value="spring">spring</option>
+              <option value="summer">summer</option>
+              <option value="autumn">autumn</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <label>Brands</label>
+          <input name="brands" placeholder="Zara, Nike" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Publish</button>
+        <div id="post-form-msg" class="msg"></div>
+      </form>
+    </section>
+
+    <!-- POPULAR (Unsplash) -->
+    <section class="section">
+      <h2>Popular inspiration</h2>
+      <div id="popular-grid" class="grid">
+        <div class="note full">Loading inspiration...</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div> 2026 Fashion Lookbook with love from Kultivator</div>
+  </footer>
+
+  <script>
+    const API = "";
+
+    const selected = { style: null, season: null, brand: null };
+
+    function token() { return localStorage.getItem("token"); }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    // ---------- HOT TOPICS ----------
+    async function loadHotTopics() {
+      try {
+        const res = await fetch(API + "/api/topics/hot");
+        const data = await res.json();
+        const el = document.getElementById("hot-topics");
+        if (!el) return;
+
+        el.innerHTML = (data.topics || [])
+          .map(t => `<a href="#" class="topic">${escapeHtml(t.title)}</a>`)
+          .join("");
+      } catch {}
+    }
+
+    // ---------- UNSPLASH POPULAR ----------
+    async function loadUnsplashPopular() {
+      const grid = document.getElementById("popular-grid");
+      if (!grid) return;
+
+      grid.innerHTML = `<div class="note full">Loading inspiration...</div>`;
+
+      // красивые запросы для апишки
+      const queries = [
+        "street style fashion",
+        "outfit inspiration",
+        "fashion aesthetic",
+        "editorial fashion",
+        "minimal outfit fashion",
+        "vintage fashion style"
+      ];
+      const q = queries[Math.floor(Math.random() * queries.length)];
+
+      try {
+        const res = await fetch(
+          API + `/api/external/unsplash?query=${encodeURIComponent(q)}&per_page=6&page=1`
+        );
+        const json = await res.json();
+
+        if (!res.ok || !json.success) {
+          grid.innerHTML = `<div class="note full">Failed to load inspiration.</div>`;
+          return;
+        }
+
+        const items = json.items || [];
+        if (!items.length) {
+          grid.innerHTML = `<div class="note full">No inspiration found.</div>`;
+          return;
+        }
+
+        grid.innerHTML = items.map(p => `
+          <div class="card">
+            ${p.image ? `<img src="${p.image}" alt="fashion" />` : ""}
+            <div class="card-body">
+              <h3>${escapeHtml(p.title)}</h3>
+              <p>by ${escapeHtml(p.author)}</p>
+              <div class="meta">
+                <a href="${p.link}" target="_blank" rel="noopener noreferrer">Open on Unsplash</a>
+              </div>
+            </div>
+          </div>
+        `).join("");
+
+      } catch (e) {
+        console.error(e);
+        grid.innerHTML = `<div class="note full">Network error.</div>`;
+      }
+    }
+
+    // ---------- POSTS FILTER ----------
+    function updateFilterStateText() {
+      const el = document.getElementById("filter-state");
+      const parts = [];
+      if (selected.style) parts.push(`<b>Style:</b> ${escapeHtml(selected.style)}`);
+      if (selected.season) parts.push(`<b>Season:</b> ${escapeHtml(selected.season)}`);
+      if (selected.brand) parts.push(`<b>Brand:</b> ${escapeHtml(selected.brand)}`);
+
+      el.innerHTML = parts.length
+        ? `Selected: ${parts.join(" • ")}`
+        : `Selected: none (showing latest posts)`;
+    }
+
+    function setActiveChip(filter, value) {
+      document.querySelectorAll(`.chip[data-filter="${filter}"]`)
+        .forEach(b => b.classList.toggle("active", b.dataset.value === value));
+    }
+
+    function clearFilter(filter) {
+      selected[filter] = null;
+      document.querySelectorAll(`.chip[data-filter="${filter}"]`)
+        .forEach(b => b.classList.remove("active"));
+    }
+
+    async function fetchPosts(params) {
+      const t = token();
+      if (!t) throw new Error("Please login to view posts.");
+
+      const url = new URL(API + "/api/posts", window.location.origin);
+      Object.entries(params).forEach(([k, v]) => {
+        if (v !== null && v !== undefined && v !== "") url.searchParams.set(k, v);
+      });
+
+      const res = await fetch(url.toString(), {
+        headers: { Authorization: `Bearer ${t}` }
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Error while loading posts");
+      return data.posts || [];
+    }
+
+    function renderPostsGrid(el, posts) {
+      if (!posts.length) {
+        el.innerHTML = `<div class="note full">No posts found for this selection.</div>`;
+        return;
+      }
+
+      el.innerHTML = posts.map(p => `
+        <div class="card">
+          ${p.image ? `<img src="${p.image}" alt="post image" />` : ""}
+          <div class="card-body">
+            <h3>${escapeHtml(p.title)}</h3>
+            <p>${escapeHtml((p.description || "").slice(0, 120))}...</p>
+            <div class="meta">${escapeHtml(p.style)} • ${escapeHtml(p.season)}</div>
+            <div class="meta small">Brands: ${escapeHtml((p.brands || []).join(", "))}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function loadFilteredPosts() {
+      updateFilterStateText();
+
+      const box = document.getElementById("filtered-posts");
+      if (!box) return;
+
+      box.innerHTML = `<div class="note full">Loading...</div>`;
+
+      try {
+        const params = { sort: "new", limit: "12" };
+
+        // optional filters
+        if (selected.style) params.style = selected.style;
+        if (selected.season) params.season = selected.season;
+        if (selected.brand) params.brand = selected.brand;
+
+        const posts = await fetchPosts(params);
+        renderPostsGrid(box, posts);
+      } catch (e) {
+        box.innerHTML = `<div class="note full">❌ ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    // ---------- CREATE POST ----------
+    async function onCreatePost(e) {
+      e.preventDefault();
+      const msg = document.getElementById("post-form-msg");
+      msg.textContent = "";
+
+      const t = token();
+      if (!t) {
+        msg.textContent = "❌ Please login first.";
+        return;
+      }
+
+      try {
+        const res = await fetch(API + "/api/posts", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${t}` },
+          body: new FormData(e.target)
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.message || "Post failed");
+
+        msg.textContent = "✅ Post created!";
+        e.target.reset();
+
+        // refresh results
+        await loadFilteredPosts();
+      } catch (err) {
+        msg.textContent = "❌ " + (err.message || "Error creating post.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      loadHotTopics();
+      loadUnsplashPopular();
+
+      // filters
+      document.querySelectorAll(".chip[data-filter]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const filter = btn.dataset.filter;
+          const value = btn.dataset.value;
+          selected[filter] = value;
+          setActiveChip(filter, value);
+          await loadFilteredPosts();
+        });
+      });
+
+      // clear one filter
+      document.querySelectorAll(".chip[data-clear]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          clearFilter(btn.dataset.clear);
+          await loadFilteredPosts();
+        });
+      });
+
+      // clear all
+      const clearAllBtn = document.getElementById("clear-all");
+      if (clearAllBtn) {
+        clearAllBtn.addEventListener("click", async () => {
+          clearFilter("style");
+          clearFilter("season");
+          clearFilter("brand");
+          await loadFilteredPosts();
+        });
+      }
+
+      // first load
+      await loadFilteredPosts();
+
+      // post form
+      const form = document.getElementById("post-form");
+      if (form) form.addEventListener("submit", onCreatePost);
+    });
+  </script>
+</body>
+</html>

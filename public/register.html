@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register • Fashion Lookbook</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="left">
+      <a class="logo" href="index.html">FASHION</a>
+    </div>
+
+    <div class="right">
+      <div class="auth-buttons">
+        <a class="btn" href="login.html">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- REGISTER -->
+  <main class="auth-page">
+    <div class="auth-card">
+      <h1>Register</h1>
+
+      <form id="register-form">
+        <div class="row">
+          <label>Username</label>
+          <input name="username" required />
+        </div>
+
+        <div class="row">
+          <label>Email</label>
+          <input type="email" name="email" required />
+        </div>
+
+        <div class="row">
+          <label>Password</label>
+          <input type="password" name="password" required minlength="6" />
+        </div>
+
+        <div class="row">
+          <label>Role</label>
+          <select name="role">
+        <option value="user">user</option>
+        <option value="stylist">stylist</option>
+</select>
+
+        </div>
+
+        <button class="btn btn-primary" type="submit">Create account</button>
+        <div id="register-msg" class="msg"></div>
+      </form>
+
+      <div class="auth-switch">
+        Already have an account?
+        <a href="login.html">Login</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API = "http://localhost:5000/api";
+
+    document.getElementById("register-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById("register-msg");
+      msg.textContent = "";
+
+      const form = e.target;
+      const body = {
+        username: form.username.value,
+        email: form.email.value,
+        password: form.password.value,
+        role: form.role.value
+      };
+
+      try {
+        const res = await fetch(API + "/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Register failed");
+
+        msg.textContent = "✅ Account created. You can login now.";
+        form.reset();
+      } catch (err) {
+        msg.textContent = "❌ " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
